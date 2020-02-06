@@ -16,7 +16,7 @@ def create_table(cur):
     Create the articles table in the database 
     """
     try:
-        cur.execute('create table articles (id integer primary key, title, username, time_posted)')
+        cur.execute('create table if not exists articles (id integer primary key, title, username, time_posted)')
     except Error as e:
         print(e)
 
@@ -73,7 +73,7 @@ def scrape_articles():
 def main():
     scrape_articles()
   
-    database = r'C:\Users\Jasmine Kaur\Documents\WebScrapingProject\articles.db'
+    database = r'articles.db'
 
     # Create a database connection
     conn = create_connection(database)

@@ -8,7 +8,7 @@ app.config['DEBUG'] = True
 
 @app.route('/posts')
 def show_all_posts():
-	conn = sqlite3.connect(r"C:\Users\Jasmine Kaur\Documents\WebScrapingProject\articles.db")
+	conn = sqlite3.connect(r"articles.db")
 	cur = conn.cursor()
 	
 	cur.execute('select id from articles')
@@ -23,6 +23,9 @@ def show_all_posts():
 	
 	print(post_vote_count) # votes for each post id 
 
+	allPosts = cur.execute('select title from articles').fetchall()
+	print(allPosts)
+	
 	postDictList = []
 	index = 0
 	for post, id in zip(allPosts, allIds):
@@ -44,7 +47,7 @@ def vote_for_post():
 	post_id = request.args.get('post_id')
 	username = request.args.get('username')
 
-	conn = sqlite3.connect(r"C:\Users\Jasmine Kaur\Documents\WebScrapingProject\articles.db")
+	conn = sqlite3.connect(r"articles.db")
 	cur = conn.cursor()
 	cur.execute('create table if not exists votes (post_id, username)')
 	
@@ -80,7 +83,7 @@ def show_top_posts():
 	count = int(request.args.get('count')) # the number of top posts to display
 	print(type(count))
 	
-	conn = sqlite3.connect(r"C:\Users\Jasmine Kaur\Documents\WebScrapingProject\articles.db")
+	conn = sqlite3.connect(r"articles.db")
 	cur = conn.cursor()
 	
 	top_posts = {}
